@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-producer
+  template:
+    metadata:
+      labels:
+        app: api-producer
+    spec:
+      containers:
+        - name: api-producer
+          image: api-producer:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "192.168.65.254:9094"
+            - name: SPRING_MAIN_SHOW_SQL
+              value: "true"
+            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_KAFKA
+              value: "DEBUG"
